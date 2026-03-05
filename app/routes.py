@@ -1,24 +1,22 @@
-from fastapi import FastAPI
-import boto3
+from fastapi import APIRouter
 from boto3.dynamodb.conditions import Key
+from app.database import get_table
 
-app = FastAPI()
+router = APIRouter()
+table = get_table()
 
-dynamodb = boto3.resource('dynamodb')
-table = dynamodb.Table('clima_dados')
-
-@app.get("/")
+@router.get("/")
 def home():
     return {"message": "API Climática rodando"}
 
-@app.get("/clima")
+@router.get("/clima")
 def buscar_por_local(location: str):
     response = table.query(
         KeyConditionExpression=Key("Location").eq(location)
     )
     return response["Items"]
 
-@app.get("/media-temperatura")
+@router.get("/temperatura/media")
 def media_temperatura(location: str):
     response = table.query(
         KeyConditionExpression=Key("Location").eq(location)
@@ -38,8 +36,7 @@ def media_temperatura(location: str):
         "media_temperatura": round(media, 2)
     }
 
-
-@app.get("/clima-periodo")
+@router.get("/clima-periodo")
 def buscar_por_periodo(location: str, data_inicio: str, data_fim: str):
     response = table.query(
         KeyConditionExpression=
@@ -55,7 +52,7 @@ def buscar_por_periodo(location: str, data_inicio: str, data_fim: str):
         }
 
     
-@app.get("/dia-mais-quente")
+@router.get("/temperatura/max")
 def dia_mais_quente(location: str, data_inicio: str, data_fim: str):
     response = table.query(
         KeyConditionExpression=
@@ -77,7 +74,7 @@ def dia_mais_quente(location: str, data_inicio: str, data_fim: str):
     }
 
 
-@app.get("/tendencia-temperatura")
+@router.get("/temperatura/tendencia")
 def tendencia(location: str):
 
     response = table.query(
