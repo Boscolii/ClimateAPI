@@ -22,6 +22,10 @@ Este projeto foi criado como prática de desenvolvimento backend e computação 
 * Boto3
 * DynamoDB
 
+## Arquitetura
+
+Client → FastAPI API → AWS EC2 (Docker Container) → DynamoDB
+
 ## Rodando com Docker
 
 ### Build da imagem
