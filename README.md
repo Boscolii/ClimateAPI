@@ -1,4 +1,4 @@
-# Climate API
+# Climate Analytics API
 
 API desenvolvida em Python com FastAPI para análise e consulta de dados climáticos.
 O projeto foi containerizado com Docker e implantado em uma instância AWS EC2, simulando uma arquitetura simples de backend em nuvem.
